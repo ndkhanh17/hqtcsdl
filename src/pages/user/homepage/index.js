@@ -1,10 +1,10 @@
 "use client"
 
-import { memo, useEffect, useState } from "react"
-import "./style.scss"
-import { Link } from "react-router-dom"
-import { formatPrice } from "utils/formatter"
-
+import { memo, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { formatPrice } from "utils/formatter";
+import banner1 from "../../../assets/user/img/banner.png";
+import "./style.scss";
 const HomePage = () => {
   const [newBooks, setNewBooks] = useState([])
   const [bestSellers, setBestSellers] = useState([])
@@ -21,28 +21,30 @@ const HomePage = () => {
         id: 1,
         title: "Nina ở thị trấn cao nguyên - Tập 2",
         price: 34200,
-        image: "/placeholder.svg?height=300&width=200",
+        image: banner1,
         category: "Manga",
+        
+
       },
       {
         id: 2,
         title: "Những ngày tết ta",
         price: 81000,
-        image: "/placeholder.svg?height=300&width=200",
+        image: banner1,
         category: "Văn hóa",
       },
       {
         id: 3,
         title: "World Trigger - Tập 4",
         price: 31500,
-        image: "/placeholder.svg?height=300&width=200",
+        image: banner1,
         category: "Manga",
       },
       {
         id: 4,
         title: "Những người bạn từ trang sách",
         price: 85500,
-        image: "/placeholder.svg?height=300&width=200",
+        image: banner1,
         category: "Tiểu thuyết",
       },
     ]
@@ -53,28 +55,28 @@ const HomePage = () => {
         id: 5,
         title: "Shin - Cậu bé bút chì - Tập 1",
         price: 19500,
-        image: "/placeholder.svg?height=300&width=200",
+        image: banner1,
         category: "Manga",
       },
       {
         id: 6,
         title: "Naruto - Quyển 20",
         price: 21000,
-        image: "/placeholder.svg?height=300&width=200",
+        image: banner1,
         category: "Manga",
       },
       {
         id: 7,
         title: "One Piece - Tập 101",
         price: 23000,
-        image: "/placeholder.svg?height=300&width=200",
+        image: banner1,
         category: "Manga",
       },
       {
         id: 8,
         title: "Chú thuật hồi chiến - Tập 1",
         price: 30000,
-        image: "/placeholder.svg?height=300&width=200",
+        image: banner1,
         category: "Manga",
       },
     ]
@@ -85,28 +87,28 @@ const HomePage = () => {
         id: 9,
         title: "Xe buýt dừa em đi",
         price: 36000,
-        image: "/placeholder.svg?height=300&width=200",
+        image: banner1,
         category: "Manga",
       },
       {
         id: 10,
         title: "Ninja Rantaro - Tập 19",
         price: 36000,
-        image: "/placeholder.svg?height=300&width=200",
+        image: banner1,
         category: "Manga",
       },
       {
         id: 11,
         title: "Doctor Stone - Tập 21",
         price: 22500,
-        image: "/placeholder.svg?height=300&width=200",
+        image: banner1,
         category: "Manga",
       },
       {
         id: 12,
         title: "Đội quân Doraemon - Tập 4",
         price: 19800,
-        image: "/placeholder.svg?height=300&width=200",
+        image: banner1,
         category: "Manga",
       },
     ]
@@ -117,21 +119,21 @@ const HomePage = () => {
         id: 13,
         title: "Thiền định mỗi ngày",
         price: 118000,
-        image: "/placeholder.svg?height=300&width=200",
+        image: banner1,
         category: "Kỹ năng sống",
       },
       {
         id: 14,
         title: "Một năm sống tử tế",
         price: 168000,
-        image: "/placeholder.svg?height=300&width=200",
+        image: banner1,
         category: "Kỹ năng sống",
       },
       {
         id: 15,
         title: "Thay đổi cuộc sống với nhân số học",
         price: 181400,
-        image: "/placeholder.svg?height=300&width=200",
+        image: banner1,
         category: "Kỹ năng sống",
       },
       {
@@ -151,7 +153,7 @@ const HomePage = () => {
         "Hạnh phúc không phải là một trạng thái vĩnh viễn, mà là một hành trình. Đôi khi, con người có thể đạt được hạnh phúc thông qua các hành động nhỏ bé hàng ngày.",
       price: 98000,
       year: 2023,
-      image: "/placeholder.svg?height=400&width=300",
+      image: banner1,
       category: "Tâm lý học",
     }
 
@@ -170,12 +172,12 @@ const HomePage = () => {
             <div className="featured-content">
               <div className="featured-images">
                 <img
-                  src={featuredBook.image || "/placeholder.svg"}
+                  src={featuredBook.image || banner1}
                   alt={featuredBook.title}
                   className="featured-image"
                 />
                 <img
-                  src={featuredBook.image || "/placeholder.svg"}
+                  src={featuredBook.image || banner1}
                   alt={featuredBook.title}
                   className="featured-image-shadow"
                 />

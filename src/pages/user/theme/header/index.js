@@ -1,17 +1,15 @@
 "use client"
 
-import { memo, useState, useEffect, useRef } from "react"
-import "./style.scss"
-import { ROUTERS } from "utils/router"
+import { memo, useEffect, useRef, useState } from "react"
+import { FaHeart, FaShoppingCart } from "react-icons/fa"
 import { Link, useLocation } from "react-router-dom"
-import { FaShoppingCart, FaHeart } from "react-icons/fa"
+import { ROUTERS } from "utils/router"
+import "./style.scss"
 
 const Header = () => {
   const location = useLocation()
   const [menu] = useState([
     { name: "Trang Chủ", path: ROUTERS.USER.HOME },
-    { name: "Cửa hàng", path: ROUTERS.USER.SHOP },
-    { name: "Về chúng tôi", path: ROUTERS.USER.ABOUT },
     { name: "Liên hệ với chúng tôi", path: ROUTERS.USER.CONTACT },
   ])
   const [isOpen, setIsOpen] = useState(false)

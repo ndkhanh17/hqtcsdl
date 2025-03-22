@@ -1,20 +1,21 @@
-import { Route, Routes, useLocation } from "react-router-dom"
-import { ADMIN_PATH, ROUTERS } from "./utils/router"
-import HomePage from "./pages/user/homepage"
-import MasterUserLayout from "./pages/user/theme/masterLayout"
 import BookDetail from "pages/user/book-detail"
 import Cart from "pages/user/cart"
-import OrderSuccess from "pages/user/order-success"
 import Checkout from "pages/user/checkout"
+import Contact from "pages/user/contact"
+import OrderSuccess from "pages/user/order-success"
 import Signin from "pages/user/signin"
 import Signup from "pages/user/signup"
+import { Route, Routes, useLocation } from "react-router-dom"
+import HomePage from "./pages/user/homepage"
+import MasterUserLayout from "./pages/user/theme/masterLayout"
+import { ADMIN_PATH, ROUTERS } from "./utils/router"
 
 import MasterAdminLayout from "pages/admin/theme/masterLayout"
 
-import Login from "pages/admin/login"
-import Dashboard from "pages/admin/dashboard"
-import Books from "pages/admin/books"
 import AddBook from "pages/admin/add-book"
+import Books from "pages/admin/books"
+import Dashboard from "pages/admin/dashboard"
+import Login from "pages/admin/login"
 import Orders from "pages/admin/orders"
 
 
@@ -48,6 +49,10 @@ const renderUserRouter = () => {
     {
       path: ROUTERS.USER.ORDER_SUCCESS,
       component: <OrderSuccess />,
+    },
+    {
+      path: ROUTERS.USER.CONTACT,
+      component: <Contact />,
     },
     
   ]
