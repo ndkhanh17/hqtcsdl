@@ -6,7 +6,7 @@ import { Link, useLocation } from "react-router-dom"
 import { ROUTERS } from "utils/router"
 import {
   FaHome,
-  FaBook,
+  FaShoppingBag,
   FaShoppingCart,
   FaUsers,
   FaSignOutAlt,
@@ -14,6 +14,7 @@ import {
   FaChartLine,
   FaPlus,
   FaTags,
+  FaCopyright,
 } from "react-icons/fa"
 
 const AdminSidebar = () => {
@@ -27,13 +28,13 @@ const AdminSidebar = () => {
       icon: <FaHome />,
     },
     {
-      name: "Quản lý sách",
-      path: ROUTERS.ADMIN.BOOKS,
-      icon: <FaBook />,
+      name: "Quản lý sản phẩm",
+      path: ROUTERS.ADMIN.PRODUCTS,
+      icon: <FaShoppingBag />,
     },
     {
-      name: "Thêm sách mới",
-      path: ROUTERS.ADMIN.ADD_BOOK,
+      name: "Thêm sản phẩm mới",
+      path: ROUTERS.ADMIN.ADD_PRODUCT,
       icon: <FaPlus />,
     },
     {
@@ -50,6 +51,11 @@ const AdminSidebar = () => {
       name: "Quản lý danh mục",
       path: ROUTERS.ADMIN.CATEGORIES,
       icon: <FaTags />,
+    },
+    {
+      name: "Quản lý thương hiệu",
+      path: ROUTERS.ADMIN.BRANDS,
+      icon: <FaCopyright />,
     },
     {
       name: "Thống kê",
@@ -70,8 +76,8 @@ const AdminSidebar = () => {
   return (
     <div className={`admin-sidebar ${collapsed ? "collapsed" : ""}`}>
       <div className="sidebar-header">
-        <div className="sidebar-logo">AB</div>
-        <h2 className="sidebar-title">AyaBook Admin</h2>
+        <div className="sidebar-logo">PN</div>
+        <h2 className="sidebar-title">Phong Nhí Admin</h2>
         <button className="collapse-button" onClick={toggleSidebar}>
           <FaBars />
         </button>

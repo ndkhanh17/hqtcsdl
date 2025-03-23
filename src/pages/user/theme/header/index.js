@@ -1,16 +1,22 @@
 "use client"
 
-import { memo, useEffect, useRef, useState } from "react"
-import { FaHeart, FaShoppingCart } from "react-icons/fa"
-import { Link, useLocation } from "react-router-dom"
-import { ROUTERS } from "utils/router"
+import { memo, useState, useEffect, useRef } from "react"
 import "./style.scss"
+import { ROUTERS } from "utils/router"
+import { Link, useLocation } from "react-router-dom"
+import { FaShoppingCart, FaSearch, FaUser } from "react-icons/fa"
 
 const Header = () => {
   const location = useLocation()
   const [menu] = useState([
-    { name: "Trang Chủ", path: ROUTERS.USER.HOME },
-    { name: "Liên hệ với chúng tôi", path: ROUTERS.USER.CONTACT },
+    { name: "TRANG CHỦ", path: ROUTERS.USER.HOME },
+    { name: "NIKE", path: "/thuong-hieu/nike" },
+    { name: "ADIDAS", path: "/thuong-hieu/adidas" },
+    { name: "JORDAN", path: "/thuong-hieu/jordan" },
+    { name: "YEEZY", path: "/thuong-hieu/yeezy" },
+    { name: "OTHER BRANDS", path: "/thuong-hieu/khac" },
+    { name: "SALE", path: "/khuyen-mai" },
+    { name: "DÂY GIÀY", path: "/day-giay" },
   ])
   const [isOpen, setIsOpen] = useState(false)
   const [cartCount, setCartCount] = useState(0)
@@ -40,52 +46,44 @@ const Header = () => {
   }, [isOpen])
 
   return (
-    <>
-      <button className="menu-toggle" onClick={toggleMenu} aria-label="Mở menu">
-        ☰
-      </button>
-      <header className={`header ${isOpen ? "open" : ""}`} ref={headerRef}>
-        <div className="container">
-          <div className="row">
-            <div className="header_logo">
-              <Link to={ROUTERS.USER.HOME}>
-                <h1>AyaBook</h1>
-              </Link>
-            </div>
-            <nav className="header_menu">
-              <ul>
-                {menu?.map((menuItem, menuKey) => {
-                  return (
-                    <li key={menuKey} className={location.pathname === menuItem.path ? "active" : ""}>
-                      <Link to={menuItem?.path}>{menuItem?.name}</Link>
-                    </li>
-                  )
-                })}
-              </ul>
-            </nav>
-            <div className="header_actions">
-              <Link to={ROUTERS.USER.CART} className="cart-icon">
-                <FaShoppingCart />
-                {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
-              </Link>
-              <Link to="/wishlist" className="wishlist-icon">
-                <FaHeart />
-              </Link>
-              <div className="header_login">
-                <ul>
-                  <li>
-                    <Link to={ROUTERS.USER.SIGNIN}>Đăng nhập</Link>
-                  </li>
-                  <li>
-                    <Link to={ROUTERS.USER.SIGNUP}>Đăng ký</Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
+    <header className="header" ref={headerRef}>
+      <div className="container">
+        <div className="header-top">
+          <div className="header-logo">
+            <Link to={ROUTERS.USER.HOME}>
+              <h1 className="logo">PHONG NHÍ</h1>
+            </Link>
+          </div>
+          <div className="header-search">
+            <input type="text" placeholder="Tìm kiếm..." />
+            <button className="search-button">
+              <FaSearch />
+            </button>
+          </div>
+          <div className="header-actions">
+            <Link to={ROUTERS.USER.SIGNIN} className="user-icon">
+              <FaUser />
+            </Link>
+            <Link to={ROUTERS.USER.CART} className="cart-icon">
+              <FaShoppingCart />
+              {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
+            </Link>
           </div>
         </div>
-      </header>
-    </>
+        <nav className="header-menu">
+          <button className="menu-toggle" onClick={toggleMenu} aria-label="Mở menu">
+            ☰
+          </button>
+          <ul className={`menu-list ${isOpen ? "open" : ""}`}>
+            {menu?.map((menuItem, menuKey) => (
+              <li key={menuKey} className={location.pathname === menuItem.path ? "active" : ""}>
+                <Link to={menuItem?.path}>{menuItem?.name}</Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </header>
   )
 }
 export default memo(Header)

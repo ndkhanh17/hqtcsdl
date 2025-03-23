@@ -1,222 +1,240 @@
 "use client"
 
-import { memo, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { formatPrice } from "utils/formatter";
-import banner1 from "../../../assets/user/img/banner.png";
-import "./style.scss";
+import { memo, useEffect, useState } from "react"
+import "./style.scss"
+import { Link } from "react-router-dom"
+import { formatPrice } from "utils/formatter"
+
 const HomePage = () => {
-  const [newBooks, setNewBooks] = useState([])
-  const [bestSellers, setBestSellers] = useState([])
-  const [mangaCollection, setMangaCollection] = useState([])
-  const [selfHelpBooks, setSelfHelpBooks] = useState([])
-  const [featuredBook, setFeaturedBook] = useState(null)
+  const [newProducts, setNewProducts] = useState([])
+  const [hotProducts, setHotProducts] = useState([])
+  const [accessories, setAccessories] = useState([])
+  const [brands, setBrands] = useState([])
 
   useEffect(() => {
     window.scrollTo(0, 0)
 
-    // Mô phỏng dữ liệu sách mới
-    const mockNewBooks = [
+    // Mô phỏng dữ liệu thương hiệu
+    const mockBrands = [
+      { id: 1, name: "Nike", logo: "/placeholder.svg?height=60&width=120" },
+      { id: 2, name: "Adidas", logo: "/placeholder.svg?height=60&width=120" },
+      { id: 3, name: "Jordan", logo: "/placeholder.svg?height=60&width=120" },
+      { id: 4, name: "Yeezy", logo: "/placeholder.svg?height=60&width=120" },
+      { id: 5, name: "Fila", logo: "/placeholder.svg?height=60&width=120" },
+      { id: 6, name: "Puma", logo: "/placeholder.svg?height=60&width=120" },
+      { id: 7, name: "Asics", logo: "/placeholder.svg?height=60&width=120" },
+      { id: 8, name: "The North Face", logo: "/placeholder.svg?height=60&width=120" },
+      { id: 9, name: "Reebok", logo: "/placeholder.svg?height=60&width=120" },
+      { id: 10, name: "Converse", logo: "/placeholder.svg?height=60&width=120" },
+      { id: 11, name: "Vans", logo: "/placeholder.svg?height=60&width=120" },
+      { id: 12, name: "Balenciaga", logo: "/placeholder.svg?height=60&width=120" },
+      { id: 13, name: "Timberland", logo: "/placeholder.svg?height=60&width=120" },
+    ]
+
+    // Mô phỏng dữ liệu sản phẩm mới
+    const mockNewProducts = [
       {
         id: 1,
-        title: "Nina ở thị trấn cao nguyên - Tập 2",
-        price: 34200,
-        image: banner1,
-        category: "Manga",
-        
-
+        name: "AIR FORCE 1",
+        price: 3800000,
+        image: "/placeholder.svg?height=300&width=300",
+        rating: 5,
       },
       {
         id: 2,
-        title: "Những ngày tết ta",
-        price: 81000,
-        image: banner1,
-        category: "Văn hóa",
+        name: "AIR FORCE 1",
+        price: 3800000,
+        image: "/placeholder.svg?height=300&width=300",
+        rating: 4,
       },
       {
         id: 3,
-        title: "World Trigger - Tập 4",
-        price: 31500,
-        image: banner1,
-        category: "Manga",
+        name: "AIR FORCE 1",
+        price: 3800000,
+        image: "/placeholder.svg?height=300&width=300",
+        rating: 5,
       },
       {
         id: 4,
-        title: "Những người bạn từ trang sách",
-        price: 85500,
-        image: banner1,
-        category: "Tiểu thuyết",
+        name: "AIR FORCE 2",
+        price: 16800000,
+        image: "/placeholder.svg?height=300&width=300",
+        rating: 5,
       },
-    ]
-
-    // Mô phỏng dữ liệu sách bán chạy
-    const mockBestSellers = [
       {
         id: 5,
-        title: "Shin - Cậu bé bút chì - Tập 1",
-        price: 19500,
-        image: banner1,
-        category: "Manga",
+        name: "AIR FORCE 1",
+        price: 3800000,
+        image: "/placeholder.svg?height=300&width=300",
+        rating: 4,
       },
       {
         id: 6,
-        title: "Naruto - Quyển 20",
-        price: 21000,
-        image: banner1,
-        category: "Manga",
+        name: "AIR FORCE 1",
+        price: 3800000,
+        image: "/placeholder.svg?height=300&width=300",
+        rating: 5,
       },
       {
         id: 7,
-        title: "One Piece - Tập 101",
-        price: 23000,
-        image: banner1,
-        category: "Manga",
+        name: "AIR FORCE 1",
+        price: 3800000,
+        image: "/placeholder.svg?height=300&width=300",
+        rating: 5,
       },
       {
         id: 8,
-        title: "Chú thuật hồi chiến - Tập 1",
-        price: 30000,
-        image: banner1,
-        category: "Manga",
+        name: "AIR FORCE 1",
+        price: 3800000,
+        image: "/placeholder.svg?height=300&width=300",
+        rating: 4,
       },
     ]
 
-    // Mô phỏng dữ liệu bộ sưu tập manga
-    const mockMangaCollection = [
+    // Mô phỏng dữ liệu sản phẩm hot
+    const mockHotProducts = [
       {
-        id: 9,
-        title: "Xe buýt dừa em đi",
-        price: 36000,
-        image: banner1,
-        category: "Manga",
+        id: 101,
+        name: "NIKE PEGASUS TRAIL 4",
+        price: 3600000,
+        image: "/placeholder.svg?height=300&width=300",
+        rating: 5,
+        sale: true,
       },
       {
-        id: 10,
-        title: "Ninja Rantaro - Tập 19",
-        price: 36000,
-        image: banner1,
-        category: "Manga",
+        id: 102,
+        name: "NIKE QUEST 5",
+        price: 2500000,
+        image: "/placeholder.svg?height=300&width=300",
+        rating: 4,
+        sale: true,
       },
       {
-        id: 11,
-        title: "Doctor Stone - Tập 21",
-        price: 22500,
-        image: banner1,
-        category: "Manga",
+        id: 103,
+        name: "ADIDAS GRADAS CLOUD WHITE",
+        price: 3600000,
+        image: "/placeholder.svg?height=300&width=300",
+        rating: 5,
+        sale: true,
       },
       {
-        id: 12,
-        title: "Đội quân Doraemon - Tập 4",
-        price: 19800,
-        image: banner1,
-        category: "Manga",
-      },
-    ]
-
-    // Mô phỏng dữ liệu sách kỹ năng sống
-    const mockSelfHelpBooks = [
-      {
-        id: 13,
-        title: "Thiền định mỗi ngày",
-        price: 118000,
-        image: banner1,
-        category: "Kỹ năng sống",
-      },
-      {
-        id: 14,
-        title: "Một năm sống tử tế",
-        price: 168000,
-        image: banner1,
-        category: "Kỹ năng sống",
-      },
-      {
-        id: 15,
-        title: "Thay đổi cuộc sống với nhân số học",
-        price: 181400,
-        image: banner1,
-        category: "Kỹ năng sống",
-      },
-      {
-        id: 16,
-        title: "Dám nghĩ lại",
-        price: 179600,
-        image: "/placeholder.svg?height=300&width=200",
-        category: "Kỹ năng sống",
+        id: 104,
+        name: "PUMA SLIPSTREAM GREEN",
+        price: 2800000,
+        image: "/placeholder.svg?height=300&width=300",
+        rating: 4,
+        sale: true,
       },
     ]
 
-    // Sách nổi bật
-    const mockFeaturedBook = {
-      id: 17,
-      title: "Hạnh phúc và bản tính con người",
-      description:
-        "Hạnh phúc không phải là một trạng thái vĩnh viễn, mà là một hành trình. Đôi khi, con người có thể đạt được hạnh phúc thông qua các hành động nhỏ bé hàng ngày.",
-      price: 98000,
-      year: 2023,
-      image: banner1,
-      category: "Tâm lý học",
-    }
+    // Mô phỏng dữ liệu phụ kiện
+    const mockAccessories = [
+      {
+        id: 201,
+        name: "DÂY GIÀY FLAT DEN",
+        price: 90000,
+        image: "/placeholder.svg?height=200&width=200",
+        rating: 5,
+      },
+      {
+        id: 202,
+        name: "CREP MARK ON | BÚT TÔ ĐẾ GIÀY",
+        price: 480000,
+        image: "/placeholder.svg?height=200&width=200",
+        rating: 4,
+      },
+      {
+        id: 203,
+        name: "CREP ERASER | GÔM TẨY VẾT BẨN",
+        price: 320000,
+        image: "/placeholder.svg?height=200&width=200",
+        rating: 5,
+      },
+      {
+        id: 204,
+        name: "CREP CURE KIT | BỘ KIT NHỎ",
+        price: 490000,
+        image: "/placeholder.svg?height=200&width=200",
+        rating: 5,
+      },
+    ]
 
-    setNewBooks(mockNewBooks)
-    setBestSellers(mockBestSellers)
-    setMangaCollection(mockMangaCollection)
-    setSelfHelpBooks(mockSelfHelpBooks)
-    setFeaturedBook(mockFeaturedBook)
+    setBrands(mockBrands)
+    setNewProducts(mockNewProducts)
+    setHotProducts(mockHotProducts)
+    setAccessories(mockAccessories)
   }, [])
 
+  const renderStars = (rating) => {
+    return Array(5)
+      .fill(0)
+      .map((_, i) => (
+        <span key={i} className={`star ${i < rating ? "filled" : ""}`}>
+          ★
+        </span>
+      ))
+  }
+
   return (
-    <div className="homepage-content">
-      {featuredBook && (
-        <section className="featured-book">
-          <div className="container">
-            <div className="featured-content">
-              <div className="featured-images">
-                <img
-                  src={featuredBook.image || banner1}
-                  alt={featuredBook.title}
-                  className="featured-image"
-                />
-                <img
-                  src={featuredBook.image || banner1}
-                  alt={featuredBook.title}
-                  className="featured-image-shadow"
-                />
-              </div>
-              <div className="featured-text">
-                <h2>"{featuredBook.title}"</h2>
-                <p>{featuredBook.description}</p>
-                <div className="featured-info">
-                  <div className="price">
-                    <span>Niêm yết giá:</span>
-                    <strong>{formatPrice(featuredBook.price)}</strong>
-                  </div>
-                  <div className="year">
-                    <span>Năm xuất bản:</span>
-                    <strong>{featuredBook.year}</strong>
-                  </div>
-                </div>
-                <Link to={`/sach/${featuredBook.id}`} className="cta-button">
-                  Mua ngay
+    <div className="homepage">
+      <section className="brands-section">
+        <div className="container">
+          <div className="brands-grid">
+            {brands.map((brand) => (
+              <div className="brand-item" key={brand.id}>
+                <Link to={`/thuong-hieu/${brand.name.toLowerCase()}`}>
+                  <img src={brand.logo || "/placeholder.svg"} alt={brand.name} />
                 </Link>
               </div>
-            </div>
+            ))}
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
-      <section className="book-section">
+      <section className="products-section">
         <div className="container">
-          <h2 className="section-title">SÁCH MỚI</h2>
-          <div className="book-grid">
-            {newBooks.map((book) => (
-              <div className="book-card" key={book.id}>
-                <Link to={`/sach/${book.id}`}>
-                  <div className="book-image">
-                    <img src={book.image || "/placeholder.svg"} alt={book.title} />
+          <h2 className="section-title">Sản phẩm mới</h2>
+          <div className="products-grid">
+            {newProducts.map((product) => (
+              <div className="product-card" key={product.id}>
+                <Link to={`/san-pham/${product.id}`}>
+                  <div className="product-image">
+                    <img src={product.image || "/placeholder.svg"} alt={product.name} />
                   </div>
-                  <div className="book-info">
-                    <h3 className="book-title">{book.title}</h3>
-                    <p className="book-price">{formatPrice(book.price)}</p>
+                  <div className="product-info">
+                    <h3 className="product-name">{product.name}</h3>
+                    <div className="product-rating">{renderStars(product.rating)}</div>
+                    <p className="product-price">{formatPrice(product.price)}</p>
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
+          <div className="pagination">
+            <button className="page-button prev">«</button>
+            <button className="page-button active">1</button>
+            <button className="page-button">2</button>
+            <button className="page-button">3</button>
+            <button className="page-button next">»</button>
+          </div>
+        </div>
+      </section>
+
+      <section className="hot-products-section">
+        <div className="container">
+          <h2 className="section-title">SẢN PHẨM HOT</h2>
+          <div className="hot-products-grid">
+            {hotProducts.map((product) => (
+              <div className="product-card" key={product.id}>
+                <Link to={`/san-pham/${product.id}`}>
+                  <div className="product-image">
+                    {product.sale && <span className="sale-badge">SALE</span>}
+                    <img src={product.image || "/placeholder.svg"} alt={product.name} />
+                  </div>
+                  <div className="product-info">
+                    <h3 className="product-name">{product.name}</h3>
+                    <div className="product-rating">{renderStars(product.rating)}</div>
+                    <p className="product-price">{formatPrice(product.price)}</p>
                   </div>
                 </Link>
               </div>
@@ -225,62 +243,20 @@ const HomePage = () => {
         </div>
       </section>
 
-      <section className="book-section">
+      <section className="accessories-section">
         <div className="container">
-          <h2 className="section-title">BÁN CHẠY NHẤT</h2>
-          <div className="book-grid">
-            {bestSellers.map((book) => (
-              <div className="book-card" key={book.id}>
-                <Link to={`/sach/${book.id}`}>
-                  <div className="book-image">
-                    <img src={book.image || "/placeholder.svg"} alt={book.title} />
+          <h2 className="section-title">PHỤ KIỆN</h2>
+          <div className="accessories-grid">
+            {accessories.map((accessory) => (
+              <div className="product-card" key={accessory.id}>
+                <Link to={`/san-pham/${accessory.id}`}>
+                  <div className="product-image">
+                    <img src={accessory.image || "/placeholder.svg"} alt={accessory.name} />
                   </div>
-                  <div className="book-info">
-                    <h3 className="book-title">{book.title}</h3>
-                    <p className="book-price">{formatPrice(book.price)}</p>
-                  </div>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="book-section manga-section">
-        <div className="container">
-          <h2 className="section-title">MANGA COLLECTION</h2>
-          <p className="section-subtitle">Bộ sưu tập dành cho fan mê truyện tranh</p>
-          <div className="book-grid">
-            {mangaCollection.map((book) => (
-              <div className="book-card" key={book.id}>
-                <Link to={`/sach/${book.id}`}>
-                  <div className="book-image">
-                    <img src={book.image || "/placeholder.svg"} alt={book.title} />
-                  </div>
-                  <div className="book-info">
-                    <h3 className="book-title">{book.title}</h3>
-                    <p className="book-price">{formatPrice(book.price)}</p>
-                  </div>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="book-section self-help-section">
-        <div className="container">
-          <h2 className="section-title">SÁCH VỀ KỸ NĂNG SỐNG CHO GIỚI TRẺ</h2>
-          <div className="book-grid">
-            {selfHelpBooks.map((book) => (
-              <div className="book-card" key={book.id}>
-                <Link to={`/sach/${book.id}`}>
-                  <div className="book-image">
-                    <img src={book.image || "/placeholder.svg"} alt={book.title} />
-                  </div>
-                  <div className="book-info">
-                    <h3 className="book-title">{book.title}</h3>
-                    <p className="book-price">{formatPrice(book.price)}</p>
+                  <div className="product-info">
+                    <h3 className="product-name">{accessory.name}</h3>
+                    <div className="product-rating">{renderStars(accessory.rating)}</div>
+                    <p className="product-price">{formatPrice(accessory.price)}</p>
                   </div>
                 </Link>
               </div>

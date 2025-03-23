@@ -9,7 +9,7 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.6;
   color: #333;
-  background-color: #f5f5f5;
+  background-color: #fff;
 }
 
 a {
@@ -17,83 +17,45 @@ a {
   color: inherit;
 }
 
-ul {
+ul, ol {
   list-style: none;
 }
 
-button {
-  cursor: pointer;
-  border: none;
-  outline: none;
+button, input, select, textarea {
+  font-family: inherit;
 }
 
+/* Global styles */
 .container {
-  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 15px;
 }
 
-/* Common styles */
-.main-content {
-  min-height: calc(100vh - 150px);
+img {
+  max-width: 100%;
+  height: auto;
 }
 
-.auth-page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #b3e0f2;
-}
+/* Import component styles */
+@import "../pages/user/theme/header/style.scss";
+@import "../pages/user/theme/footer/style.scss";
+@import "../pages/user/homepage/style.scss";
+@import "../pages/user/product-detail/style.scss";
+@import "../pages/user/cart/style.scss";
+@import "../pages/user/checkout/style.scss";
+@import "../pages/user/order-success/style.scss";
+@import "../pages/user/signin/style.scss";
+@import "../pages/user/signup/style.scss";
+@import "../pages/user/shop/style.scss";
 
-.form-page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #b3e0f2;
-  padding: 20px 0;
-}
-
-/* AyaBook Theme Colors */
-:root {
-  --primary-color: #0099cc;
-  --primary-dark: #007aa3;
-  --primary-light: #b3e0f2;
-  --secondary-color: #ff6b6b;
-  --secondary-dark: #e05252;
-  --text-color: #333333;
-  --text-light: #666666;
-  --background-color: #f5f5f5;
-  --white: #ffffff;
-  --border-color: #dddddd;
-  --success-color: #4caf50;
-  --warning-color: #ff9800;
-  --danger-color: #f44336;
-  --info-color: #2196f3;
-}
-
-/* Admin Layout */
-.admin-layout-container {
-  display: flex;
-  min-height: 100vh;
-}
-
-.admin-main-content {
-  flex: 1;
-  padding: 20px;
-  margin-left: 250px;
-  transition: margin-left 0.3s;
-}
-
-.admin-main-content.login-page {
-  margin-left: 0;
-}
-
-@media (max-width: 768px) {
-  .admin-main-content {
-    margin-left: 0;
-  }
-}
+/* Admin styles */
+@import "../pages/admin/theme/sidebar.scss";
+@import "../pages/admin/login/style.scss";
+@import "../pages/admin/dashboard/style.scss";
+@import "../pages/admin/products/style.scss";
+@import "../pages/admin/add-product/style.scss";
+@import "../pages/admin/orders/style.scss";
+@import "../pages/admin/brands/style.scss";
+@import "../pages/admin/categories/style.scss";
 

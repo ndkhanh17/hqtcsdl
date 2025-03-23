@@ -26,13 +26,13 @@ const Orders = () => {
           address: "123 Nguyễn Trãi, Hà Đông, Hà Nội",
         },
         items: [
-          { id: 1, title: "Chú thuật hồi chiến - Tập 1", price: 30000, quantity: 1 },
-          { id: 2, title: "Naruto - Quyển 20", price: 21000, quantity: 2 },
+          { id: 1, name: "AIR FORCE 1", price: 3800000, size: 42, quantity: 1 },
+          { id: 2, name: "NIKE PEGASUS TRAIL 4", price: 3600000, size: 41, quantity: 1 },
         ],
-        total: 72000,
-        shippingFee: 20000,
+        total: 7400000,
+        shippingFee: 30000,
         discount: 0,
-        finalTotal: 92000,
+        finalTotal: 7430000,
         status: "completed",
         paymentMethod: "cod",
         orderDate: "2023-03-15T08:30:00Z",
@@ -47,13 +47,13 @@ const Orders = () => {
           address: "456 Lê Văn Lương, Quận 7, TP. Hồ Chí Minh",
         },
         items: [
-          { id: 3, title: "One Piece - Tập 101", price: 23000, quantity: 1 },
-          { id: 4, title: "Dám nghĩ lại", price: 179600, quantity: 1 },
+          { id: 3, name: "ADIDAS GRADAS CLOUD WHITE", price: 3600000, size: 40, quantity: 1 },
+          { id: 4, name: "PUMA SLIPSTREAM GREEN", price: 2800000, size: 43, quantity: 1 },
         ],
-        total: 202600,
-        shippingFee: 20000,
+        total: 6400000,
+        shippingFee: 30000,
         discount: 0,
-        finalTotal: 222600,
+        finalTotal: 6430000,
         status: "pending",
         paymentMethod: "bank",
         orderDate: "2023-03-15T14:20:00Z",
@@ -67,11 +67,11 @@ const Orders = () => {
           email: "levanc@example.com",
           address: "789 Nguyễn Huệ, Hải Châu, Đà Nẵng",
         },
-        items: [{ id: 5, title: "Thay đổi cuộc sống với nhân số học", price: 181400, quantity: 1 }],
-        total: 181400,
-        shippingFee: 20000,
+        items: [{ id: 5, name: "AIR FORCE 2", price: 16800000, size: 44, quantity: 1 }],
+        total: 16800000,
+        shippingFee: 30000,
         discount: 0,
-        finalTotal: 201400,
+        finalTotal: 16830000,
         status: "processing",
         paymentMethod: "cod",
         orderDate: "2023-03-16T10:45:00Z",
@@ -86,13 +86,13 @@ const Orders = () => {
           address: "101 Trần Phú, Ngô Quyền, Hải Phòng",
         },
         items: [
-          { id: 6, title: "Thiền định mỗi ngày", price: 118000, quantity: 1 },
-          { id: 7, title: "Shin - Cậu bé bút chì - Tập 1", price: 19500, quantity: 1 },
+          { id: 6, name: "JUDGMENT SHIRT", price: 280000, size: "M", quantity: 1 },
+          { id: 7, name: "DOBERMAN SHIRT", price: 350000, size: "L", quantity: 1 },
         ],
-        total: 137500,
-        shippingFee: 20000,
+        total: 630000,
+        shippingFee: 30000,
         discount: 0,
-        finalTotal: 157500,
+        finalTotal: 660000,
         status: "cancelled",
         paymentMethod: "cod",
         orderDate: "2023-03-16T16:30:00Z",
@@ -107,13 +107,13 @@ const Orders = () => {
           address: "202 Lê Lợi, Ninh Kiều, Cần Thơ",
         },
         items: [
-          { id: 8, title: "Đội quân Doraemon - Tập 4", price: 19800, quantity: 2 },
-          { id: 9, title: "Những ngày tết ta", price: 81000, quantity: 1 },
+          { id: 8, name: "GANGSTA SHIRT", price: 275000, size: "M", quantity: 2 },
+          { id: 9, name: "SIREN SHIRT", price: 320000, size: "L", quantity: 1 },
         ],
-        total: 120600,
-        shippingFee: 20000,
+        total: 870000,
+        shippingFee: 30000,
         discount: 0,
-        finalTotal: 140600,
+        finalTotal: 900000,
         status: "pending",
         paymentMethod: "bank",
         orderDate: "2023-03-17T09:10:00Z",
@@ -386,6 +386,7 @@ const Orders = () => {
                     <thead>
                       <tr>
                         <th>Sản phẩm</th>
+                        <th>Size</th>
                         <th>Giá</th>
                         <th>Số lượng</th>
                         <th>Thành tiền</th>
@@ -394,7 +395,8 @@ const Orders = () => {
                     <tbody>
                       {selectedOrder.items.map((item, index) => (
                         <tr key={index}>
-                          <td>{item.title}</td>
+                          <td>{item.name}</td>
+                          <td>{item.size}</td>
                           <td>{formatPrice(item.price)}</td>
                           <td>{item.quantity}</td>
                           <td>{formatPrice(item.price * item.quantity)}</td>

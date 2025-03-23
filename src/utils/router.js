@@ -10,7 +10,7 @@ export const ROUTERS = {
     SIGNIN: "/dang-nhap",
     CHECKOUT: "/thanh-toan",
     PROFILE: "/thong-tin-ca-nhan",
-    BOOK_DETAIL: "/sach/:id",
+    PRODUCT_DETAIL: "/san-pham/:id",
     CART: "/gio-hang",
     ORDER_SUCCESS: "/dat-hang-thanh-cong",
     ORDER_HISTORY: "/lich-su-mua-hang",
@@ -19,11 +19,12 @@ export const ROUTERS = {
   ADMIN: {
     LOGIN: `${ADMIN_PATH}/dang-nhap`,
     DASHBOARD: `${ADMIN_PATH}/dashboard`,
-    BOOKS: `${ADMIN_PATH}/quan-ly-sach`,
-    ADD_BOOK: `${ADMIN_PATH}/them-sach`,
+    PRODUCTS: `${ADMIN_PATH}/quan-ly-san-pham`,
+    ADD_PRODUCT: `${ADMIN_PATH}/them-san-pham`,
     ORDERS: `${ADMIN_PATH}/don-hang`,
     CUSTOMERS: `${ADMIN_PATH}/khach-hang`,
     CATEGORIES: `${ADMIN_PATH}/danh-muc`,
+    BRANDS: `${ADMIN_PATH}/thuong-hieu`,
     STATISTICS: `${ADMIN_PATH}/thong-ke`,
   },
 }

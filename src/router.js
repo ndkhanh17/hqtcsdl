@@ -1,23 +1,31 @@
-import BookDetail from "pages/user/book-detail"
-import Cart from "pages/user/cart"
-import Checkout from "pages/user/checkout"
-import Contact from "pages/user/contact"
-import OrderSuccess from "pages/user/order-success"
-import Signin from "pages/user/signin"
-import Signup from "pages/user/signup"
 import { Route, Routes, useLocation } from "react-router-dom"
+import { ADMIN_PATH, ROUTERS } from "./utils/router"
 import HomePage from "./pages/user/homepage"
 import MasterUserLayout from "./pages/user/theme/masterLayout"
-import { ADMIN_PATH, ROUTERS } from "./utils/router"
+import ProductDetail from "pages/user/product-detail"
+import Cart from "pages/user/cart"
+import OrderSuccess from "pages/user/order-success"
+import Checkout from "pages/user/checkout"
+import Signin from "pages/user/signin"
+import Signup from "pages/user/signup"
+import Shop from "pages/user/shop"
+import NikeBrand from "pages/user/brand/nike"
+import AdidasBrand from "pages/user/brand/adidas"
+import JordanBrand from "pages/user/brand/jordan"
+import YeezyBrand from "pages/user/brand/yeezy"
+import OtherBrands from "pages/user/brand/other"
+import Sale from "pages/user/sale"
+import Shoelaces from "pages/user/shoelaces"
 
 import MasterAdminLayout from "pages/admin/theme/masterLayout"
 
-import AddBook from "pages/admin/add-book"
-import Books from "pages/admin/books"
-import Dashboard from "pages/admin/dashboard"
 import Login from "pages/admin/login"
+import Dashboard from "pages/admin/dashboard"
+import Products from "pages/admin/products"
+import AddProduct from "pages/admin/add-product"
 import Orders from "pages/admin/orders"
-
+import Brands from "pages/admin/brands"
+import Categories from "pages/admin/categories"
 
 const renderUserRouter = () => {
   const UserRouters = [
@@ -25,7 +33,10 @@ const renderUserRouter = () => {
       path: ROUTERS.USER.HOME,
       component: <HomePage />,
     },
-
+    {
+      path: ROUTERS.USER.SHOP,
+      component: <Shop />,
+    },
     {
       path: ROUTERS.USER.SIGNUP,
       component: <Signup />,
@@ -39,8 +50,8 @@ const renderUserRouter = () => {
       component: <Checkout />,
     },
     {
-      path: ROUTERS.USER.BOOK_DETAIL,
-      component: <BookDetail />,
+      path: ROUTERS.USER.PRODUCT_DETAIL,
+      component: <ProductDetail />,
     },
     {
       path: ROUTERS.USER.CART,
@@ -51,10 +62,33 @@ const renderUserRouter = () => {
       component: <OrderSuccess />,
     },
     {
-      path: ROUTERS.USER.CONTACT,
-      component: <Contact />,
+      path: "/thuong-hieu/nike",
+      component: <NikeBrand />,
     },
-    
+    {
+      path: "/thuong-hieu/adidas",
+      component: <AdidasBrand />,
+    },
+    {
+      path: "/thuong-hieu/jordan",
+      component: <JordanBrand />,
+    },
+    {
+      path: "/thuong-hieu/yeezy",
+      component: <YeezyBrand />,
+    },
+    {
+      path: "/thuong-hieu/khac",
+      component: <OtherBrands />,
+    },
+    {
+      path: "/khuyen-mai",
+      component: <Sale />,
+    },
+    {
+      path: "/day-giay",
+      component: <Shoelaces />,
+    },
   ]
   return (
     <MasterUserLayout>
@@ -78,19 +112,25 @@ const renderAdminRouter = () => {
       component: <Dashboard />,
     },
     {
-      path: ROUTERS.ADMIN.BOOKS,
-      component: <Books />,
+      path: ROUTERS.ADMIN.PRODUCTS,
+      component: <Products />,
     },
     {
-      path: ROUTERS.ADMIN.ADD_BOOK,
-      component: <AddBook />,
+      path: ROUTERS.ADMIN.ADD_PRODUCT,
+      component: <AddProduct />,
     },
     {
       path: ROUTERS.ADMIN.ORDERS,
       component: <Orders />,
     },
- 
-   
+    {
+      path: ROUTERS.ADMIN.BRANDS,
+      component: <Brands />,
+    },
+    {
+      path: ROUTERS.ADMIN.CATEGORIES,
+      component: <Categories />,
+    },
   ]
   return (
     <MasterAdminLayout>

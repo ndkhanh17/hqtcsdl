@@ -2,9 +2,8 @@
 
 import { memo, useState, useEffect } from "react"
 import "./style.scss"
-import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaUser, FaBuilding, FaRegBuilding } from "react-icons/fa"
-import { MdOutlineDisabledByDefault } from "react-icons/md"
-import { useNavigate } from "react-router-dom"
+import { FaArrowLeft } from "react-icons/fa"
+import { Link, useNavigate } from "react-router-dom"
 import { formatPrice } from "utils/formatter"
 import { ROUTERS } from "utils/router"
 
@@ -12,14 +11,14 @@ const Checkout = () => {
   const navigate = useNavigate()
   const [cartItems, setCartItems] = useState([])
   const [subtotal, setSubtotal] = useState(0)
-  const [shippingFee, setShippingFee] = useState(20000)
+  const [shippingFee, setShippingFee] = useState(30000)
   const [discount, setDiscount] = useState(0)
   const [total, setTotal] = useState(0)
   const [paymentMethod, setPaymentMethod] = useState("cod")
+  const [shippingMethod, setShippingMethod] = useState("standard")
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
-    email: "",
     province: "",
     district: "",
     ward: "",
@@ -27,7 +26,6 @@ const Checkout = () => {
     notes: "",
   })
   const [formErrors, setFormErrors] = useState({})
-  const [confirmed, setConfirmed] = useState(false)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -56,6 +54,10 @@ const Checkout = () => {
     }
   }, [navigate])
 
+  useEffect(() => {
+    setTotal(subtotal + shippingFee - discount)
+  }, [subtotal, shippingFee, discount])
+
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData({
@@ -76,8 +78,13 @@ const Checkout = () => {
     setPaymentMethod(method)
   }
 
-  const handleCheckboxChange = (e) => {
-    setConfirmed(e.target.checked)
+  const handleShippingMethodChange = (method) => {
+    setShippingMethod(method)
+    if (method === "express") {
+      setShippingFee(50000)
+    } else {
+      setShippingFee(30000)
+    }
   }
 
   const validateForm = () => {
@@ -91,10 +98,6 @@ const Checkout = () => {
       errors.phone = "Vui lòng nhập số điện thoại"
     } else if (!/^[0-9]{10}$/.test(formData.phone.trim())) {
       errors.phone = "Số điện thoại không hợp lệ"
-    }
-
-    if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
-      errors.email = "Email không hợp lệ"
     }
 
     if (!formData.province.trim()) {
@@ -125,18 +128,12 @@ const Checkout = () => {
       return
     }
 
-    if (!confirmed) {
-      alert("Vui lòng xác nhận thông tin đơn hàng")
-      return
-    }
-
     // Lưu thông tin người dùng vào localStorage
     localStorage.setItem(
       "userInfo",
       JSON.stringify({
         fullName: formData.fullName,
         phone: formData.phone,
-        email: formData.email,
         province: formData.province,
         district: formData.district,
         ward: formData.ward,
@@ -153,6 +150,7 @@ const Checkout = () => {
       discount: discount,
       total: total,
       paymentMethod: paymentMethod,
+      shippingMethod: shippingMethod,
       customerInfo: formData,
       status: "pending",
       orderDate: new Date().toISOString(),
@@ -175,243 +173,201 @@ const Checkout = () => {
     })
   }
 
-  const handleExitClick = () => {
-    navigate(ROUTERS.USER.CART)
-  }
-
   return (
     <div className="checkout-page">
-      <div className="checkout-container">
-        <button className="exit-button" onClick={handleExitClick}>
-          <MdOutlineDisabledByDefault />
-        </button>
+      <div className="container">
+        <div className="breadcrumb">
+          <Link to="/">Trang chủ</Link> &gt; <Link to="/san-pham/1">AIR FORCE 1</Link> &gt;{" "}
+          <Link to="/gio-hang">Giỏ hàng</Link> &gt; <span>Mua hàng</span>
+        </div>
+
+        <h1 className="page-title">THÔNG TIN MUA HÀNG</h1>
 
         <div className="checkout-content">
-          <div className="checkout-form-container">
-            <div className="section-title">
-              <h2>THÔNG TIN NGƯỜI NHẬN</h2>
-            </div>
-
-            <form onSubmit={handleSubmit} className="checkout-form">
+          <form className="checkout-form" onSubmit={handleSubmit}>
+            <div className="form-section">
               <div className="form-group">
-                <label htmlFor="fullName">Họ và tên</label>
-                <div className="input-with-icon">
-                  <FaUser className="input-icon" />
-                  <input
-                    type="text"
-                    id="fullName"
-                    name="fullName"
-                    value={formData.fullName}
-                    onChange={handleInputChange}
-                    placeholder="Bùi Thế Mạnh"
-                    className={formErrors.fullName ? "error" : ""}
-                  />
-                </div>
+                <label htmlFor="fullName">HỌ VÀ TÊN</label>
+                <input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
+                  className={formErrors.fullName ? "error" : ""}
+                />
                 {formErrors.fullName && <div className="error-message">{formErrors.fullName}</div>}
               </div>
 
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="phone">Số điện thoại</label>
-                  <div className="input-with-icon">
-                    <FaPhone className="input-icon" />
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      placeholder="0862934398"
-                      className={formErrors.phone ? "error" : ""}
-                    />
-                  </div>
-                  {formErrors.phone && <div className="error-message">{formErrors.phone}</div>}
-                </div>
+              <div className="form-group">
+                <label htmlFor="phone">SĐT</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  className={formErrors.phone ? "error" : ""}
+                />
+                {formErrors.phone && <div className="error-message">{formErrors.phone}</div>}
+              </div>
 
-                <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <div className="input-with-icon">
-                    <FaEnvelope className="input-icon" />
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      placeholder="Manh@gmail.com"
-                      className={formErrors.email ? "error" : ""}
-                    />
-                  </div>
-                  {formErrors.email && <div className="error-message">{formErrors.email}</div>}
-                </div>
+              <div className="form-group full-width">
+                <label htmlFor="address">ĐỊA CHỈ CỤ THỂ (Số nhà, đường, thôn, xóm, ấp, bản)</label>
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  className={formErrors.address ? "error" : ""}
+                />
+                {formErrors.address && <div className="error-message">{formErrors.address}</div>}
               </div>
 
               <div className="form-row">
                 <div className="form-group">
-                  <label htmlFor="province">Chọn Tỉnh/TP</label>
-                  <div className="input-with-icon">
-                    <FaBuilding className="input-icon" />
-                    <input
-                      type="text"
-                      id="province"
-                      name="province"
-                      value={formData.province}
-                      onChange={handleInputChange}
-                      placeholder="Hà Nội"
-                      className={formErrors.province ? "error" : ""}
-                    />
-                  </div>
+                  <label htmlFor="province">Tỉnh/Thành phố</label>
+                  <select
+                    id="province"
+                    name="province"
+                    value={formData.province}
+                    onChange={handleInputChange}
+                    className={formErrors.province ? "error" : ""}
+                  >
+                    <option value="">Chọn Tỉnh/TP</option>
+                    <option value="Hà Nội">Hà Nội</option>
+                    <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh</option>
+                    <option value="Đà Nẵng">Đà Nẵng</option>
+                  </select>
                   {formErrors.province && <div className="error-message">{formErrors.province}</div>}
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="district">Chọn Quận/Huyện</label>
-                  <div className="input-with-icon">
-                    <FaRegBuilding className="input-icon" />
-                    <input
-                      type="text"
-                      id="district"
-                      name="district"
-                      value={formData.district}
-                      onChange={handleInputChange}
-                      placeholder="Quận Hà Đông"
-                      className={formErrors.district ? "error" : ""}
-                    />
-                  </div>
+                  <label htmlFor="district">Quận/Huyện</label>
+                  <select
+                    id="district"
+                    name="district"
+                    value={formData.district}
+                    onChange={handleInputChange}
+                    className={formErrors.district ? "error" : ""}
+                  >
+                    <option value="">Chọn Quận/Huyện</option>
+                    <option value="Hà Đông">Hà Đông</option>
+                    <option value="Thanh Xuân">Thanh Xuân</option>
+                    <option value="Cầu Giấy">Cầu Giấy</option>
+                  </select>
                   {formErrors.district && <div className="error-message">{formErrors.district}</div>}
                 </div>
-              </div>
 
-              <div className="form-group">
-                <label htmlFor="ward">Chọn Phường/Xã</label>
-                <div className="input-with-icon">
-                  <FaRegBuilding className="input-icon" />
-                  <input
-                    type="text"
+                <div className="form-group">
+                  <label htmlFor="ward">Phường/Xã</label>
+                  <select
                     id="ward"
                     name="ward"
                     value={formData.ward}
                     onChange={handleInputChange}
-                    placeholder="Chọn Phường/Xã"
                     className={formErrors.ward ? "error" : ""}
-                  />
+                  >
+                    <option value="">Chọn Phường/Xã</option>
+                    <option value="Mộ Lao">Mộ Lao</option>
+                    <option value="Văn Quán">Văn Quán</option>
+                    <option value="Yên Nghĩa">Yên Nghĩa</option>
+                  </select>
+                  {formErrors.ward && <div className="error-message">{formErrors.ward}</div>}
                 </div>
-                {formErrors.ward && <div className="error-message">{formErrors.ward}</div>}
               </div>
 
-              <div className="form-group">
-                <label htmlFor="address">Địa chỉ</label>
-                <div className="input-with-icon">
-                  <FaMapMarkerAlt className="input-icon" />
-                  <input
-                    type="text"
-                    id="address"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    placeholder="Chọn Phường/Xã"
-                    className={formErrors.address ? "error" : ""}
-                  />
-                </div>
-                {formErrors.address && <div className="error-message">{formErrors.address}</div>}
+              <div className="form-group full-width">
+                <label htmlFor="shippingMethod">Phương thức vận chuyển</label>
+                <select
+                  id="shippingMethod"
+                  name="shippingMethod"
+                  value={shippingMethod}
+                  onChange={(e) => handleShippingMethodChange(e.target.value)}
+                >
+                  <option value="standard">Giao hàng tiêu chuẩn (30.000đ)</option>
+                  <option value="express">Giao hàng nhanh (50.000đ)</option>
+                </select>
               </div>
 
-              <div className="form-group">
+              <div className="form-group full-width">
+                <label htmlFor="paymentMethod">Phương thức thanh toán</label>
+                <select
+                  id="paymentMethod"
+                  name="paymentMethod"
+                  value={paymentMethod}
+                  onChange={(e) => handlePaymentMethodChange(e.target.value)}
+                >
+                  <option value="cod">Thanh toán khi nhận hàng (COD)</option>
+                  <option value="bank">Chuyển khoản ngân hàng</option>
+                </select>
+              </div>
+
+              <div className="form-group full-width">
                 <label htmlFor="notes">Ghi chú</label>
                 <textarea
                   id="notes"
                   name="notes"
                   value={formData.notes}
                   onChange={handleInputChange}
-                  placeholder="Nhập nội dung"
+                  placeholder="Bạn để lại ghi chú tại đây nhé!"
                   rows="4"
-                />
-              </div>
-
-              <div className="section-title payment-title">
-                <h2>CHỌN PHƯƠNG THỨC THANH TOÁN</h2>
-              </div>
-
-              <div className="payment-methods">
-                <div
-                  className={`payment-method ${paymentMethod === "bank" ? "active" : ""}`}
-                  onClick={() => handlePaymentMethodChange("bank")}
-                >
-                  <input
-                    type="radio"
-                    id="bank"
-                    name="paymentMethod"
-                    checked={paymentMethod === "bank"}
-                    onChange={() => handlePaymentMethodChange("bank")}
-                  />
-                  <label htmlFor="bank">Tài khoản ngân hàng</label>
-                  <span className="checkmark"></span>
-                </div>
-
-                <div
-                  className={`payment-method ${paymentMethod === "cod" ? "active" : ""}`}
-                  onClick={() => handlePaymentMethodChange("cod")}
-                >
-                  <input
-                    type="radio"
-                    id="cod"
-                    name="paymentMethod"
-                    checked={paymentMethod === "cod"}
-                    onChange={() => handlePaymentMethodChange("cod")}
-                  />
-                  <label htmlFor="cod">Thanh toán tiền mặt</label>
-                  <span className="checkmark"></span>
-                </div>
-              </div>
-
-              <div className="confirm-checkbox">
-                <input type="checkbox" id="confirm" checked={confirmed} onChange={handleCheckboxChange} />
-                <label htmlFor="confirm">Xác nhận đúng thông tin</label>
-              </div>
-
-              <button type="submit" className="checkout-button" disabled={!confirmed}>
-                Đặt hàng
-              </button>
-            </form>
-          </div>
-
-          <div className="order-summary">
-            <div className="section-title">
-              <h2>THÔNG TIN ĐƠN HÀNG</h2>
-            </div>
-
-            <div className="summary-content">
-              <div className="summary-row">
-                <span>Tạm tính:</span>
-                <span>{formatPrice(subtotal)}</span>
-              </div>
-
-              <div className="summary-row">
-                <span>Giảm giá:</span>
-                <span>{formatPrice(discount)}</span>
-              </div>
-
-              <div className="summary-row">
-                <span>Phí ship:</span>
-                <span>{formatPrice(shippingFee)}</span>
-              </div>
-
-              <div className="shipping-note">Phí ship tính theo đơn và không giới hạn số lượng sách</div>
-
-              <div className="summary-row total">
-                <span>Thành tiền:</span>
-                <span>{formatPrice(total)}</span>
-              </div>
-
-              <div className="terms-agreement">
-                <p>
-                  Bằng việc nhấn thanh toán, bạng đồng ý với
-                  <a href="/dieu-khoan"> Các điều khoản khách hàng </a>
-                  của nhà xuất bản Aya Book
-                </p>
+                ></textarea>
               </div>
             </div>
-          </div>
+
+            <div className="order-summary">
+              <h2>Đơn hàng của bạn</h2>
+              <div className="cart-items">
+                {cartItems.map((item, index) => (
+                  <div className="cart-item" key={`${item.id}-${item.size}-${index}`}>
+                    <div className="item-image">
+                      <img src={item.image || "/placeholder.svg"} alt={item.name} />
+                    </div>
+                    <div className="item-details">
+                      <div className="item-name">{item.name}</div>
+                      <div className="item-size">Size: {item.size}</div>
+                      <div className="item-price-qty">
+                        {formatPrice(item.price)} x {item.quantity}
+                      </div>
+                    </div>
+                    <div className="item-total">{formatPrice(item.price * item.quantity)}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="summary-totals">
+                <div className="summary-row">
+                  <span>Tạm tính:</span>
+                  <span>{formatPrice(subtotal)}</span>
+                </div>
+                <div className="summary-row">
+                  <span>Phí vận chuyển:</span>
+                  <span>{formatPrice(shippingFee)}</span>
+                </div>
+                {discount > 0 && (
+                  <div className="summary-row">
+                    <span>Giảm giá:</span>
+                    <span>-{formatPrice(discount)}</span>
+                  </div>
+                )}
+                <div className="summary-row total">
+                  <span>Tổng tiền:</span>
+                  <span>{formatPrice(total)}</span>
+                </div>
+              </div>
+
+              <div className="checkout-actions">
+                <Link to="/gio-hang" className="back-to-cart">
+                  <FaArrowLeft /> Quay lại giỏ hàng
+                </Link>
+                <button type="submit" className="place-order-btn">
+                  MUA HÀNG
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>

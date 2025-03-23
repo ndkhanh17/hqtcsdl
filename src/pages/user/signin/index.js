@@ -68,52 +68,43 @@ const Signin = () => {
     navigate(ROUTERS.USER.HOME)
   }
 
-  const handleCloseClick = () => {
-    navigate(ROUTERS.USER.HOME)
-  }
-
   return (
     <div className="signin-page">
-      <div className="signin-container">
-        <h1 className="signin-title">CHÀO MỪNG BẠN ĐẾN VỚI AYA BOOK</h1>
+      <div className="container">
+        <div className="breadcrumb">
+          <Link to="/">Trang chủ</Link> &gt; <span>Đăng nhập</span>
+        </div>
 
-        <div className="signin-form-container">
-          <button className="close-button" onClick={handleCloseClick}>
-            <span className="close-icon">✕</span>
-          </button>
-
-          <h2 className="form-title">Đăng nhập</h2>
+        <div className="signin-container">
+          <h1 className="page-title">ĐĂNG NHẬP TÀI KHOẢN</h1>
+          <p className="subtitle">Nhập email và mật khẩu của bạn</p>
 
           <form onSubmit={handleSubmit} className="signin-form">
             <div className="form-group">
               <label htmlFor="email">Email</label>
-              <div className="input-container">
-                <span className="input-icon">✉</span>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className={errors.email ? "error" : ""}
-                />
-              </div>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                placeholder="Email"
+                className={errors.email ? "error" : ""}
+              />
               {errors.email && <div className="error-message">{errors.email}</div>}
             </div>
 
             <div className="form-group">
               <label htmlFor="password">Mật khẩu</label>
-              <div className="input-container">
-                <span className="input-icon">🔒</span>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  className={errors.password ? "error" : ""}
-                />
-              </div>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                placeholder="Mật khẩu"
+                className={errors.password ? "error" : ""}
+              />
               {errors.password && <div className="error-message">{errors.password}</div>}
             </div>
 
@@ -129,23 +120,26 @@ const Signin = () => {
                 <label htmlFor="rememberMe">Nhớ mật khẩu</label>
               </div>
 
-              <a href="/quen-mat-khau" className="forgot-password">
-                Quên mật khẩu
-              </a>
+              <Link to="/quen-mat-khau" className="forgot-password">
+                Khôi phục mật khẩu
+              </Link>
             </div>
 
             <button type="submit" className="signin-button">
-              Đăng nhập
+              ĐĂNG NHẬP
             </button>
           </form>
 
           <div className="register-link">
             <p>
-              Không nhớ tài khoản?{" "}
-              <Link to={ROUTERS.USER.SIGNUP} className="signup-link">
-                Đăng ký ngay
-              </Link>
+              Khách hàng mới? <Link to={ROUTERS.USER.SIGNUP}>Tạo tài khoản</Link>
             </p>
+          </div>
+
+          <div className="back-link">
+            <Link to="/" className="back-to-home">
+              ← Quay lại trang đăng nhập
+            </Link>
           </div>
         </div>
       </div>

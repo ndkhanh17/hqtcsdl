@@ -2,27 +2,27 @@
 
 import { memo, useState, useEffect } from "react"
 import "./style.scss"
-import { FaBook, FaShoppingCart, FaUsers, FaMoneyBillWave } from "react-icons/fa"
+import { FaShoppingBag, FaShoppingCart, FaUsers, FaMoneyBillWave } from "react-icons/fa"
 import { Link } from "react-router-dom"
 import { ROUTERS } from "utils/router"
 import { formatPrice } from "utils/formatter"
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
-    totalBooks: 0,
+    totalProducts: 0,
     pendingOrders: 0,
     totalCustomers: 0,
     totalRevenue: 0,
   })
 
   const [recentOrders, setRecentOrders] = useState([])
-  const [topSellingBooks, setTopSellingBooks] = useState([])
+  const [topSellingProducts, setTopSellingProducts] = useState([])
 
   // Mô phỏng dữ liệu thống kê
   useEffect(() => {
     // Trong thực tế, dữ liệu này sẽ được lấy từ API
     setStats({
-      totalBooks: 156,
+      totalProducts: 156,
       pendingOrders: 12,
       totalCustomers: 87,
       totalRevenue: 15680000,
@@ -33,79 +33,79 @@ const Dashboard = () => {
         id: 1,
         customer: "Nguyễn Văn A",
         date: "15/03/2023",
-        total: 270000,
+        total: 3300000,
         status: "completed",
       },
       {
         id: 2,
         customer: "Trần Thị B",
         date: "15/03/2023",
-        total: 540000,
+        total: 6600000,
         status: "pending",
       },
       {
         id: 3,
         customer: "Lê Văn C",
         date: "16/03/2023",
-        total: 180000,
+        total: 3300000,
         status: "processing",
       },
       {
         id: 4,
         customer: "Phạm Thị D",
         date: "16/03/2023",
-        total: 320000,
+        total: 16800000,
         status: "cancelled",
       },
       {
         id: 5,
         customer: "Hoàng Văn E",
         date: "17/03/2023",
-        total: 450000,
+        total: 3300000,
         status: "pending",
       },
     ]
 
-    const mockTopSellingBooks = [
+    const mockTopSellingProducts = [
       {
         id: 1,
-        title: "Chú thuật hồi chiến - Tập 1",
+        name: "AIR FORCE 1",
         sold: 125,
-        revenue: 3750000,
-        image: "/placeholder.svg?height=60&width=40",
+        revenue: 412500000,
+        image: "/placeholder.svg?height=60&width=60",
       },
       {
         id: 2,
-        title: "Naruto - Quyển 20",
+        name: "NIKE PEGASUS TRAIL 4",
         sold: 98,
-        revenue: 2058000,
-        image: "/placeholder.svg?height=60&width=40",
+        revenue: 352800000,
+        image: "/placeholder.svg?height=60&width=60",
       },
       {
         id: 3,
-        title: "One Piece - Tập 101",
+        name: "ADIDAS GRADAS CLOUD WHITE",
         sold: 87,
-        revenue: 2001000,
-        image: "/placeholder.svg?height=60&width=40",
+        revenue: 313200000,
+        image: "/placeholder.svg?height=60&width=60",
       },
       {
         id: 4,
-        title: "Dám nghĩ lại",
+        name: "PUMA SLIPSTREAM GREEN",
         sold: 76,
-        revenue: 1365600,
-        image: "/placeholder.svg?height=60&width=40",
+        revenue: 212800000,
+        image: "/placeholder.svg?height=60&width=60",
       },
       {
         id: 5,
-        title: "Thay đổi cuộc sống với nhân số học",
+        name: "AIR FORCE 2",
         sold: 65,
-        revenue: 1179100,
-        image: "/placeholder.svg?height=60&width=40",
+        revenue: 1092000000,
+        image: "/placeholder.svg?height=60&width=60",
       },
     ]
 
     setRecentOrders(mockRecentOrders)
-    setTopSellingBooks(mockTopSellingBooks)
+    setTopSellingProducts(mockTopSellingProducts)
   }, [])
 
   const getStatusClass = (status) => {
@@ -148,13 +148,13 @@ const Dashboard = () => {
         <div className="stats-container">
           <div className="stat-card">
             <div className="stat-icon">
-              <FaBook />
+              <FaShoppingBag />
             </div>
             <div className="stat-content">
-              <h3>Tổng số sách</h3>
-              <p>{stats.totalBooks}</p>
+              <h3>Tổng số sản phẩm</h3>
+              <p>{stats.totalProducts}</p>
             </div>
-            <Link to={ROUTERS.ADMIN.BOOKS} className="stat-link">
+            <Link to={ROUTERS.ADMIN.PRODUCTS} className="stat-link">
               Quản lý
             </Link>
           </div>
@@ -238,34 +238,38 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="top-selling-books">
+          <div className="top-selling-products">
             <div className="section-header">
-              <h2>Sách bán chạy</h2>
-              <Link to={ROUTERS.ADMIN.BOOKS} className="view-all">
+              <h2>Sản phẩm bán chạy</h2>
+              <Link to={ROUTERS.ADMIN.PRODUCTS} className="view-all">
                 Xem tất cả
               </Link>
             </div>
 
-            <div className="books-table-container">
-              <table className="books-table">
+            <div className="products-table-container">
+              <table className="products-table">
                 <thead>
                   <tr>
-                    <th>Sách</th>
+                    <th>Sản phẩm</th>
                     <th>Đã bán</th>
                     <th>Doanh thu</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {topSellingBooks.map((book) => (
-                    <tr key={book.id}>
+                  {topSellingProducts.map((product) => (
+                    <tr key={product.id}>
                       <td>
-                        <div className="book-info">
-                          <img src={book.image || "/placeholder.svg"} alt={book.title} className="book-thumbnail" />
-                          <span className="book-title">{book.title}</span>
+                        <div className="product-info">
+                          <img
+                            src={product.image || "/placeholder.svg"}
+                            alt={product.name}
+                            className="product-thumbnail"
+                          />
+                          <span className="product-name">{product.name}</span>
                         </div>
                       </td>
-                      <td>{book.sold}</td>
-                      <td>{formatPrice(book.revenue)}</td>
+                      <td>{product.sold}</td>
+                      <td>{formatPrice(product.revenue)}</td>
                     </tr>
                   ))}
                 </tbody>

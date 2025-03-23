@@ -50,7 +50,8 @@ const AddBook = () => {
           price: 30000,
           originalPrice: 35000,
           stock: 45,
-          description: "Itadori Yuji là một học sinh cấp Ba sở hữu năng lực thể chất phi thường. Hàng ngày cậu thường tới bệnh viện chăm sóc ông nội đang ốm liệt giường. Nhưng một ngày nọ, phong ấn của vật thể bị nguyền\ mà trường cậu đang bảo quản bị phá vỡ, quái vật xuất hiện. Để cứu hai anh chị khóa trên đang gặp nguy hiểm, Itadori đã nuốt vật thể bị nguyền và trở thành chủ nhân của Sukuna, Vua của các nguyền! Số phận của Itadori từ đây sẽ ra sao!?",
+          description:
+            "Itadori Yuji là một học sinh cấp Ba sở hữu năng lực thể chất phi thường. Hàng ngày cậu thường tới bệnh viện chăm sóc ông nội đang ốm liệt giường. Nhưng một ngày nọ, phong ấn của vật thể bị nguyền mà trường cậu đang bảo quản bị phá vỡ, quái vật xuất hiện. Để cứu hai anh chị khóa trên đang gặp nguy hiểm, Itadori đã nuốt vật thể bị nguyền và trở thành chủ nhân của Sukuna, Vua của các nguyền! Số phận của Itadori từ đây sẽ ra sao!?",
           dimensions: "11.3 x 17.6 cm",
           pages: 192,
           weight: "140 gram",
@@ -58,7 +59,7 @@ const AddBook = () => {
           series: "Chú thuật hồi chiến",
           image: "/placeholder.svg?height=300&width=200",
         },
-      ];
+      ]
 
       const book = mockBooks.find((book) => book.id === Number.parseInt(bookId))
       if (book) {

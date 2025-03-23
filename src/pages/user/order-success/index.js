@@ -26,33 +26,27 @@ const OrderSuccess = () => {
 
   return (
     <div className="order-success-page">
-      <div className="success-container">
+      <div className="container">
         <div className="success-content">
+          <div className="success-icon">✓</div>
           <h1>ĐẶT HÀNG THÀNH CÔNG</h1>
-
-          <p className="thank-you-message">Cảm ơn bạn đã đặt hàng tại Aya Book</p>
+          <p className="thank-you-message">Cảm ơn bạn đã đặt hàng tại Phong Nhí</p>
 
           <div className="order-info">
+            <div className="info-row">
+              <span>Mã đơn hàng:</span>
+              <span>#{orderId}</span>
+            </div>
             <div className="info-row">
               <span>Tổng tiền thanh toán:</span>
               <span className="price">{formatPrice(total || 0)}</span>
             </div>
-
-            <div className="info-row">
-              <span>Mã sách:</span>
-              <span>{orderId}</span>
-            </div>
-          </div>
-
-          <div className="order-history-link">
-            <p>Để xem lịch sử mua hàng vui lòng</p>
-            <Link to={ROUTERS.USER.ORDER_HISTORY}>Xem tại đây</Link>
           </div>
 
           <div className="support-info">
             <p>Để được hỗ trợ vui lòng gọi vào hotline</p>
-            <a href="tel:19001348" className="hotline">
-              1900 1348
+            <a href="tel:0123456789" className="hotline">
+              0123456789
             </a>
           </div>
 
