@@ -1,0 +1,152 @@
+.statistics-page {
+  .page-header {
+    .time-filter {
+      display: flex;
+      align-items: center;
+      background-color: var(--bg-white);
+      border: 1px solid var(--border-color);
+      border-radius: 0.375rem;
+      padding: 0 0.75rem;
+      
+      svg {
+        color: var(--text-light);
+        margin-right: 0.5rem;
+      }
+      
+      select {
+        border: none;
+        padding: 0.5rem 0;
+        font-size: 0.875rem;
+        background: transparent;
+        
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    
+    .stat-card {
+      background-color: var(--bg-white);
+      border-radius: 0.5rem;
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      
+      &.wide {
+        grid-column: span 2;
+      }
+      
+      .stat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        
+        h3 {
+          font-size: 1rem;
+          margin: 0;
+        }
+        
+        svg {
+          color: var(--text-light);
+        }
+      }
+      
+      .chart-container {
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        .chart-placeholder {
+          text-align: center;
+          color: var(--text-light);
+          
+          p {
+            margin: 0;
+            
+            &.chart-note {
+              font-size: 0.75rem;
+              color: var(--text-muted);
+              margin-top: 0.5rem;
+            }
+          }
+        }
+      }
+      
+      .chart-legend {
+        margin-top: 1rem;
+        
+        .legend-item {
+          display: flex;
+          align-items: center;
+          margin-bottom: 0.5rem;
+          font-size: 0.75rem;
+          
+          .color-box {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            margin-right: 0.5rem;
+            
+            &.men {
+              background-color: var(--primary-color);
+            }
+            
+            &.women {
+              background-color: var(--info-color);
+            }
+            
+            &.accessories {
+              background-color: var(--warning-color);
+            }
+            
+            &.other {
+              background-color: var(--secondary-color);
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .stats-tables {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    
+    .stats-table {
+      background-color: var(--bg-white);
+      border-radius: 0.5rem;
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      
+      h3 {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .statistics-page {
+    .stats-grid {
+      grid-template-columns: 1fr;
+      
+      .stat-card.wide {
+        grid-column: span 1;
+      }
+    }
+    
+    .stats-tables {
+      grid-template-columns: 1fr;
+    }
+  }
+}
