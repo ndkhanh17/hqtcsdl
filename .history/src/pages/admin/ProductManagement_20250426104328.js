@@ -28,22 +28,8 @@ const ProductManagement = () => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`)
       }
-      const result = await response.json()
-
-      // Kiểm tra cấu trúc dữ liệu trả về
-      let productsData = []
-      if (result.data && Array.isArray(result.data.products)) {
-        // Nếu API trả về cấu trúc { data: { products: [...] } }
-        productsData = result.data.products
-      } else if (Array.isArray(result.data)) {
-        // Nếu API trả về cấu trúc { data: [...] }
-        productsData = result.data
-      } else if (Array.isArray(result)) {
-        // Nếu API trả về trực tiếp mảng sản phẩm
-        productsData = result
-      }
-
-      setProducts(productsData)
+      const data = await response.json()
+      setProducts(Array.isArray(data) ? data : [])
     } catch (err) {
       console.error("Error fetching products:", err)
       setError("Không thể tải danh sách sản phẩm. Vui lòng thử lại sau.")
@@ -87,12 +73,10 @@ const ProductManagement = () => {
     setShowDeleteModal(true)
   }
 
-  // Cập nhật hàm handleDeleteConfirm để xử lý ID đúng cách
   const handleDeleteConfirm = async () => {
     setLoading(true)
     try {
-      const productId = currentProduct.id || currentProduct._id
-      const response = await fetch(`${API_BASE_URL}/products/delete/${productId}`, {
+      const response = await fetch(`${API_BASE_URL}/products/delete/${currentProduct.id}`, {
         method: "DELETE",
       })
 
@@ -110,19 +94,14 @@ const ProductManagement = () => {
     }
   }
 
-  // Cập nhật hàm handleSaveProduct để xử lý ID đúng cách
   const handleSaveProduct = async (product) => {
     setLoading(true)
     try {
       let response
-      const productId = product.id || product._id
 
-      // Log dữ liệu sản phẩm trước khi gửi
-      console.log("Dữ liệu sản phẩm gửi đi:", product)
-
-      if (productId) {
+      if (product.id) {
         // Update existing product
-        response = await fetch(`${API_BASE_URL}/products/update/${productId}`, {
+        response = await fetch(`${API_BASE_URL}/products/update/${product.id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -140,22 +119,16 @@ const ProductManagement = () => {
         })
       }
 
-      // Log response để debug
-      console.log("API Response status:", response.status)
-      const responseData = await response.json().catch(() => ({}))
-      console.log("API Response data:", responseData)
-
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}, Message: ${responseData.message || "Unknown error"}`)
+        throw new Error(`HTTP error! Status: ${response.status}`)
       }
 
       // Refresh product list after successful save
       fetchProducts()
       setShowProductModal(false)
-      setError(null) // Xóa thông báo lỗi nếu có
     } catch (err) {
       console.error("Error saving product:", err)
-      setError(`Không thể ${product.id ? "cập nhật" : "thêm"} sản phẩm. Chi tiết lỗi: ${err.message}`)
+      setError(`Không thể ${product.id ? "cập nhật" : "thêm"} sản phẩm. Vui lòng thử lại sau.`)
       setLoading(false)
     }
   }
@@ -170,11 +143,6 @@ const ProductManagement = () => {
         },
         body: JSON.stringify({ name: categoryName }),
       })
-
-      // Log response để debug
-      console.log("API Response status for adding category:", response.status)
-      const responseData = await response.json().catch(() => ({}))
-      console.log("API Response data for adding category:", responseData)
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`)
@@ -191,13 +159,10 @@ const ProductManagement = () => {
 
   const filteredProducts = Array.isArray(products)
     ? products.filter((product) => {
-        // Kiểm tra nếu product.name tồn tại trước khi sử dụng toLowerCase()
-        const nameMatch = !searchTerm || (product.name && product.name.toLowerCase().includes(searchTerm.toLowerCase()))
-
-        // Kiểm tra điều kiện lọc theo danh mục
-        const categoryMatch = !filterCategory || (product.category && product.category === filterCategory)
-
-        return nameMatch && categoryMatch
+        return (
+          product.name?.toLowerCase().includes(searchTerm.toLowerCase()) &&
+          (filterCategory === "" || product.category === filterCategory)
+        )
       })
     : []
 
@@ -225,7 +190,7 @@ const ProductManagement = () => {
           <select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
             <option value="">Tất cả danh mục</option>
             {categories.map((category) => (
-              <option key={category.id || category._id} value={category.name}>
+              <option key={category.id} value={category.name}>
                 {category.name}
               </option>
             ))}
@@ -285,24 +250,21 @@ const ProductManagement = () => {
             <tbody>
               {filteredProducts.length > 0 ? (
                 filteredProducts.map((product) => (
-                  <tr key={product._id || product.id}>
-                    <td>#{product._id || product.id || "N/A"}</td>
+                  <tr key={product.id}>
+                    <td>#{product.id}</td>
                     <td>
                       <div className="product-image">
-                        <img
-                          src={product.image || "/placeholder.svg?height=40&width=40"}
-                          alt={product.name || "Sản phẩm"}
-                        />
+                        <img src={product.image || "/placeholder.svg?height=40&width=40"} alt={product.name} />
                       </div>
                     </td>
-                    <td>{product.name || "Chưa có tên"}</td>
-                    <td>{product.category || "Chưa phân loại"}</td>
-                    <td>{product.priceFormatted || product.price?.toLocaleString() || 0}đ</td>
-                    <td>{product.stock || 0}</td>
+                    <td>{product.name}</td>
+                    <td>{product.category}</td>
+                    <td>{product.price?.toLocaleString()}đ</td>
+                    <td>{product.stock}</td>
                     <td>
                       <span
                         className={`status-badge ${
-                          product.stock > 10 ? "active" : (product.stock > 0) ? "low-stock" : "out-of-stock"
+                          product.stock > 10 ? "active" : product.stock > 0 ? "low-stock" : "out-of-stock"
                         }`}
                       >
                         {product.stock > 10 ? "Còn hàng" : product.stock > 0 ? "Sắp hết" : "Hết hàng"}

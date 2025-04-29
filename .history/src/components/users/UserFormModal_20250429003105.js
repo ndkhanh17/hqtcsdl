@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { FaTimes } from "react-icons/fa"
+import { FaSpinner, FaTimes } from "react-icons/fa"
 import "../../styles/components/modal.scss"
 import "../../styles/components/userForm.scss"
 
@@ -17,6 +17,7 @@ const UserFormModal = ({ user, onSave, onClose, roles }) => {
   })
 
   const [errors, setErrors] = useState({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     if (user) {
@@ -82,13 +83,26 @@ const UserFormModal = ({ user, onSave, onClose, roles }) => {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsSubmitting(true)
 
     if (validateForm()) {
-      // Loại bỏ confirmPassword trước khi lưu
-      const { confirmPassword, ...userData } = formData
-      onSave(userData)
+      try {
+        // Loại bỏ confirmPassword trước khi lưu
+        const { confirmPassword, ...userData } = formData
+        await onSave(userData)
+      } catch (error) {
+        console.error("Error in form submission:", error)
+        setErrors({
+          ...errors,
+          form: error.message || "Có lỗi xảy ra khi lưu dữ liệu",
+        })
+      } finally {
+        setIsSubmitting(false)
+      }
+    } else {
+      setIsSubmitting(false)
     }
   }
 
@@ -97,28 +111,57 @@ const UserFormModal = ({ user, onSave, onClose, roles }) => {
       <div className="modal-container">
         <div className="modal-header">
           <h2>{user ? "Chỉnh sửa người dùng" : "Thêm người dùng mới"}</h2>
-          <button className="close-btn" onClick={onClose}>
+          <button className="close-btn" onClick={onClose} disabled={isSubmitting}>
             <FaTimes />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="user-form">
+          {errors.form && (
+            <div
+              className="error-message"
+              style={{
+                padding: "0.75rem",
+                marginBottom: "1rem",
+                backgroundColor: "rgba(229, 62, 62, 0.1)",
+                color: "var(--danger-color)",
+                borderRadius: "0.375rem",
+              }}
+            >
+              {errors.form}
+            </div>
+          )}
+
           <div className="form-group">
             <label htmlFor="name">Họ tên</label>
-            <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              disabled={isSubmitting}
+            />
             {errors.name && <div className="error-message">{errors.name}</div>}
           </div>
 
           <div className="form-group">
             <label htmlFor="email">Email</label>
-            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              disabled={isSubmitting}
+            />
             {errors.email && <div className="error-message">{errors.email}</div>}
           </div>
 
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="role">Vai trò</label>
-              <select id="role" name="role" value={formData.role} onChange={handleChange}>
+              <select id="role" name="role" value={formData.role} onChange={handleChange} disabled={isSubmitting}>
                 <option value="">Chọn vai trò</option>
                 {roles.map((role) => (
                   <option key={role} value={role}>
@@ -131,7 +174,7 @@ const UserFormModal = ({ user, onSave, onClose, roles }) => {
 
             <div className="form-group">
               <label htmlFor="status">Trạng thái</label>
-              <select id="status" name="status" value={formData.status} onChange={handleChange}>
+              <select id="status" name="status" value={formData.status} onChange={handleChange} disabled={isSubmitting}>
                 <option value="Hoạt động">Hoạt động</option>
                 <option value="Không hoạt động">Không hoạt động</option>
                 <option value="Bị chặn">Bị chặn</option>
@@ -149,6 +192,7 @@ const UserFormModal = ({ user, onSave, onClose, roles }) => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
+                  disabled={isSubmitting}
                 />
                 {errors.password && <div className="error-message">{errors.password}</div>}
               </div>
@@ -161,6 +205,7 @@ const UserFormModal = ({ user, onSave, onClose, roles }) => {
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
+                  disabled={isSubmitting}
                 />
                 {errors.confirmPassword && <div className="error-message">{errors.confirmPassword}</div>}
               </div>
@@ -168,11 +213,20 @@ const UserFormModal = ({ user, onSave, onClose, roles }) => {
           )}
 
           <div className="modal-footer">
-            <button type="button" className="btn-secondary" onClick={onClose}>
+            <button type="button" className="btn-secondary" onClick={onClose} disabled={isSubmitting}>
               Hủy
             </button>
-            <button type="submit" className="btn-primary">
-              {user ? "Cập nhật người dùng" : "Thêm người dùng"}
+            <button type="submit" className="btn-primary" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <FaSpinner className="spinner" style={{ marginRight: "0.5rem" }} />
+                  Đang xử lý...
+                </>
+              ) : user ? (
+                "Cập nhật người dùng"
+              ) : (
+                "Thêm người dùng"
+              )}
             </button>
           </div>
         </form>

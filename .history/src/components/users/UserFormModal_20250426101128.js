@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState, useEffect } from "react"
 import { FaTimes } from "react-icons/fa"
 import "../../styles/components/modal.scss"
 import "../../styles/components/userForm.scss"

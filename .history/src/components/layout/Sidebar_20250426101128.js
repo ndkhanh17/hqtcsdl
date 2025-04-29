@@ -1,5 +1,5 @@
-import { FaChartBar, FaHome, FaSignOutAlt, FaTshirt, FaUsers, FaUsersCog } from "react-icons/fa"
 import { NavLink } from "react-router-dom"
+import { FaHome, FaChartBar, FaTshirt, FaUsers, FaUsersCog, FaSignOutAlt } from "react-icons/fa"
 import "../../styles/layout/sidebar.scss"
 
 const Sidebar = ({ isOpen }) => {
@@ -18,7 +18,6 @@ const Sidebar = ({ isOpen }) => {
         <NavLink to="/admin/products" className={({ isActive }) => (isActive ? "active" : "")}>
           <FaTshirt /> <span>Quản lý sản phẩm</span>
         </NavLink>
-        
         <NavLink to="/admin/users" className={({ isActive }) => (isActive ? "active" : "")}>
           <FaUsers /> <span>Quản lý người dùng</span>
         </NavLink>

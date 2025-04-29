@@ -24,7 +24,7 @@ const ProductFormModal = ({ product, onSave, onClose, categories, onAddCategory 
   useEffect(() => {
     if (product) {
       setFormData({
-        id: product._id || product.id || null,
+        id: product.id,
         name: product.name || "",
         category: product.category || "",
         price: product.price || "",
@@ -85,31 +85,9 @@ const ProductFormModal = ({ product, onSave, onClose, categories, onAddCategory 
     setIsSubmitting(true)
 
     try {
-      // Kiểm tra dữ liệu trước khi gửi
-      if (!formData.name || !formData.name.trim()) {
-        throw new Error("Tên sản phẩm không được để trống")
-      }
-
-      if (!formData.category || !formData.category.trim()) {
-        throw new Error("Danh mục không được để trống")
-      }
-
-      if (!formData.price || formData.price <= 0) {
-        throw new Error("Giá sản phẩm phải lớn hơn 0")
-      }
-
-      // Đảm bảo dữ liệu đúng định dạng
-      const productData = {
-        ...formData,
-        price: Number(formData.price),
-        stock: Number(formData.stock || 0),
-      }
-
-      console.log("Dữ liệu sản phẩm trước khi gửi:", productData)
-      await onSave(productData)
+      await onSave(formData)
     } catch (error) {
       console.error("Error saving product:", error)
-      alert(`Lỗi: ${error.message || "Không thể lưu sản phẩm"}`)
     } finally {
       setIsSubmitting(false)
     }

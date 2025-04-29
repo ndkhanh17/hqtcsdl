@@ -117,9 +117,6 @@ const ProductManagement = () => {
       let response
       const productId = product.id || product._id
 
-      // Log dữ liệu sản phẩm trước khi gửi
-      console.log("Dữ liệu sản phẩm gửi đi:", product)
-
       if (productId) {
         // Update existing product
         response = await fetch(`${API_BASE_URL}/products/update/${productId}`, {
@@ -140,22 +137,16 @@ const ProductManagement = () => {
         })
       }
 
-      // Log response để debug
-      console.log("API Response status:", response.status)
-      const responseData = await response.json().catch(() => ({}))
-      console.log("API Response data:", responseData)
-
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}, Message: ${responseData.message || "Unknown error"}`)
+        throw new Error(`HTTP error! Status: ${response.status}`)
       }
 
       // Refresh product list after successful save
       fetchProducts()
       setShowProductModal(false)
-      setError(null) // Xóa thông báo lỗi nếu có
     } catch (err) {
       console.error("Error saving product:", err)
-      setError(`Không thể ${product.id ? "cập nhật" : "thêm"} sản phẩm. Chi tiết lỗi: ${err.message}`)
+      setError(`Không thể ${product.id ? "cập nhật" : "thêm"} sản phẩm. Vui lòng thử lại sau.`)
       setLoading(false)
     }
   }
@@ -170,11 +161,6 @@ const ProductManagement = () => {
         },
         body: JSON.stringify({ name: categoryName }),
       })
-
-      // Log response để debug
-      console.log("API Response status for adding category:", response.status)
-      const responseData = await response.json().catch(() => ({}))
-      console.log("API Response data for adding category:", responseData)
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`)
@@ -225,7 +211,7 @@ const ProductManagement = () => {
           <select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
             <option value="">Tất cả danh mục</option>
             {categories.map((category) => (
-              <option key={category.id || category._id} value={category.name}>
+              <option key={category.id} value={category.name}>
                 {category.name}
               </option>
             ))}

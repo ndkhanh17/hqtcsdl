@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { FaEdit, FaPlus, FaSearch, FaTrash } from "react-icons/fa"
-import DeleteConfirmModal from "../../components/common/DeleteConfirmModal"
+import { FaPlus, FaEdit, FaTrash, FaSearch } from "react-icons/fa"
 import RoleFormModal from "../../components/roles/RoleFormModal"
+import DeleteConfirmModal from "../../components/common/DeleteConfirmModal"
 import "../../styles/pages/roleManagement.scss"
 
 // Sample role data

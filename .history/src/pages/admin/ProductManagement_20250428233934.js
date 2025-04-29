@@ -171,11 +171,6 @@ const ProductManagement = () => {
         body: JSON.stringify({ name: categoryName }),
       })
 
-      // Log response để debug
-      console.log("API Response status for adding category:", response.status)
-      const responseData = await response.json().catch(() => ({}))
-      console.log("API Response data for adding category:", responseData)
-
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`)
       }
@@ -225,7 +220,7 @@ const ProductManagement = () => {
           <select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
             <option value="">Tất cả danh mục</option>
             {categories.map((category) => (
-              <option key={category.id || category._id} value={category.name}>
+              <option key={category.id} value={category.name}>
                 {category.name}
               </option>
             ))}

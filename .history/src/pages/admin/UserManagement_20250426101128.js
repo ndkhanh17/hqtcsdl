@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { FaEdit, FaFilter, FaPlus, FaSearch, FaTrash, FaUserShield } from "react-icons/fa"
-import DeleteConfirmModal from "../../components/common/DeleteConfirmModal"
+import { FaPlus, FaEdit, FaTrash, FaSearch, FaFilter, FaUserShield } from "react-icons/fa"
 import UserFormModal from "../../components/users/UserFormModal"
+import DeleteConfirmModal from "../../components/common/DeleteConfirmModal"
 import "../../styles/pages/userManagement.scss"
 
 // Sample user data

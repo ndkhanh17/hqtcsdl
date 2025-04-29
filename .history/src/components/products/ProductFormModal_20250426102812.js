@@ -1,11 +1,11 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { FaPlus, FaSpinner, FaTimes, FaUpload } from "react-icons/fa"
+import { FaSpinner, FaTimes, FaUpload } from "react-icons/fa"
 import "../../styles/components/modal.scss"
 import "../../styles/components/productForm.scss"
 
-const ProductFormModal = ({ product, onSave, onClose, categories, onAddCategory }) => {
+const ProductFormModal = ({ product, onSave, onClose, categories }) => {
   const [formData, setFormData] = useState({
     id: null,
     name: "",
@@ -18,13 +18,11 @@ const ProductFormModal = ({ product, onSave, onClose, categories, onAddCategory 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [newCategory, setNewCategory] = useState("")
   const [showNewCategoryInput, setShowNewCategoryInput] = useState(false)
-  const [addingCategory, setAddingCategory] = useState(false)
-  const [categoryError, setCategoryError] = useState("")
 
   useEffect(() => {
     if (product) {
       setFormData({
-        id: product._id || product.id || null,
+        id: product.id,
         name: product.name || "",
         category: product.category || "",
         price: product.price || "",
@@ -51,65 +49,22 @@ const ProductFormModal = ({ product, onSave, onClose, categories, onAddCategory 
 
   const handleNewCategoryChange = (e) => {
     setNewCategory(e.target.value)
-    setCategoryError("")
-  }
-
-  const handleAddCategory = async () => {
-    if (!newCategory.trim()) {
-      setCategoryError("Tên danh mục không được để trống")
-      return
-    }
-
-    setAddingCategory(true)
-    try {
-      const success = await onAddCategory(newCategory.trim())
-      if (success) {
-        setFormData({
-          ...formData,
-          category: newCategory.trim(),
-        })
-        setShowNewCategoryInput(false)
-        setNewCategory("")
-      } else {
-        setCategoryError("Không thể thêm danh mục. Vui lòng thử lại.")
-      }
-    } catch (error) {
-      setCategoryError("Đã xảy ra lỗi khi thêm danh mục.")
-    } finally {
-      setAddingCategory(false)
-    }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
 
+    // If using a new category, update the formData
+    const updatedFormData = { ...formData }
+    if (showNewCategoryInput && newCategory.trim()) {
+      updatedFormData.category = newCategory.trim()
+    }
+
     try {
-      // Kiểm tra dữ liệu trước khi gửi
-      if (!formData.name || !formData.name.trim()) {
-        throw new Error("Tên sản phẩm không được để trống")
-      }
-
-      if (!formData.category || !formData.category.trim()) {
-        throw new Error("Danh mục không được để trống")
-      }
-
-      if (!formData.price || formData.price <= 0) {
-        throw new Error("Giá sản phẩm phải lớn hơn 0")
-      }
-
-      // Đảm bảo dữ liệu đúng định dạng
-      const productData = {
-        ...formData,
-        price: Number(formData.price),
-        stock: Number(formData.stock || 0),
-      }
-
-      console.log("Dữ liệu sản phẩm trước khi gửi:", productData)
-      await onSave(productData)
+      await onSave(updatedFormData)
     } catch (error) {
       console.error("Error saving product:", error)
-      alert(`Lỗi: ${error.message || "Không thể lưu sản phẩm"}`)
     } finally {
       setIsSubmitting(false)
     }
@@ -153,47 +108,33 @@ const ProductFormModal = ({ product, onSave, onClose, categories, onAddCategory 
                 >
                   <option value="">Chọn danh mục</option>
                   {categories.map((category) => (
-                    <option key={category.id} value={category.name}>
-                      {category.name}
+                    <option key={category} value={category}>
+                      {category}
                     </option>
                   ))}
                   <option value="new">+ Thêm danh mục mới</option>
                 </select>
               ) : (
-                <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                  <div style={{ display: "flex", gap: "0.5rem" }}>
-                    <input
-                      type="text"
-                      value={newCategory}
-                      onChange={handleNewCategoryChange}
-                      placeholder="Nhập tên danh mục mới"
-                      disabled={isSubmitting || addingCategory}
-                      className={categoryError ? "error" : ""}
-                    />
-                    <button
-                      type="button"
-                      onClick={handleAddCategory}
-                      className="btn-primary"
-                      style={{ padding: "0.5rem" }}
-                      disabled={isSubmitting || addingCategory || !newCategory.trim()}
-                    >
-                      {addingCategory ? <FaSpinner className="spinner" /> : <FaPlus />}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setShowNewCategoryInput(false)
-                        setNewCategory("")
-                        setCategoryError("")
-                      }}
-                      className="btn-secondary"
-                      style={{ padding: "0.5rem" }}
-                      disabled={isSubmitting || addingCategory}
-                    >
-                      <FaTimes />
-                    </button>
-                  </div>
-                  {categoryError && <div className="error-message">{categoryError}</div>}
+                <div style={{ display: "flex", gap: "0.5rem" }}>
+                  <input
+                    type="text"
+                    value={newCategory}
+                    onChange={handleNewCategoryChange}
+                    placeholder="Nhập tên danh mục mới"
+                    disabled={isSubmitting}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowNewCategoryInput(false)
+                      setNewCategory("")
+                    }}
+                    className="btn-secondary"
+                    style={{ padding: "0.5rem" }}
+                    disabled={isSubmitting}
+                  >
+                    Hủy
+                  </button>
                 </div>
               )}
             </div>

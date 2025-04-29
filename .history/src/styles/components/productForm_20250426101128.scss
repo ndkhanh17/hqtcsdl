@@ -61,23 +61,4 @@
       }
     }
   }
-  
-  .error-message {
-    color: var(--danger-color);
-    font-size: 0.75rem;
-    margin-top: 0.25rem;
-  }
-  
-  input.error {
-    border-color: var(--danger-color);
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  .spinner {
-    animation: spin 1s linear infinite;
-  }
 }
